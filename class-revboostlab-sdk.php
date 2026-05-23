@@ -40,16 +40,17 @@ if ( ! class_exists( '\RevBoostLab\RevBoostLab_SDK' ) ) {
          * @param array $config Configuration array.
          */
         public function __construct( $config = [] ) {
+            $text_domain = isset( $config['text_domain'] ) ? $config['text_domain'] : 'revboostlab';
             $defaults = [
                 'plugin_file'      => '',
-                'plugin_slug'      => $this->config['text_domain'], // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralDomain
+                'plugin_slug'      => $text_domain, // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralDomain
                 'plugin_name'      => 'Quotation Manager for WooCommerce',
                 'plugin_version'   => '1.0.0',
                 'parent_menu'      => 'bluepi-quote',
                 'option_status'    => 'revboostlab_license_status',
                 'option_key'       => 'revboostlab_license_key',
                 'api_url'          => 'https://revboostlab.com/wp-json/sacfw/v1',
-                'text_domain'      => $this->config['text_domain'], // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralDomain
+                'text_domain'      => $text_domain, // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralDomain
                 'brand_color'      => '#0066cc',
                 'enable_updates'   => true,
                 'enable_licensing' => true,
