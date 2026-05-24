@@ -48,4 +48,91 @@
 .revboostlab-btn-skip { background: transparent; border: 1px solid #cbd5e1; border-radius: 8px; padding: 8px 16px; font-size: 13px; font-weight: 600; color: #64748b; cursor: pointer; }
 .revboostlab-btn-submit { background: #2563eb; border: none; border-radius: 8px; padding: 8px 18px; font-size: 13px; font-weight: 600; color: #ffffff; cursor: pointer; box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2); }
 
+/* SDK Opt-In Admin Notice Styles */
+.notice.revboostlab-opt-in-notice {
+    position: relative;
+    border-left: 4px solid #10b981 !important; /* Green left border matching Appsero style */
+    background: #f0fdf4 !important; /* Premium light green/emerald background */
+    padding: 18px 24px !important;
+    margin: 15px 15px 15px 0 !important;
+    border-radius: 8px !important;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.03) !important;
+    border-top: 1px solid #dcfce7 !important;
+    border-right: 1px solid #dcfce7 !important;
+    border-bottom: 1px solid #dcfce7 !important;
+}
+.revboostlab-opt-in-content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.revboostlab-opt-in-content p {
+    margin: 0 !important;
+    font-size: 13.5px !important;
+    line-height: 1.6 !important;
+    color: #1f2937 !important;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+}
+.revboostlab-opt-in-content p strong {
+    font-weight: 600;
+    color: #111827;
+}
+.revboostlab-opt-in-content a {
+    color: #2563eb !important;
+    text-decoration: underline !important;
+    font-weight: 500;
+}
+.revboostlab-opt-in-content a:hover {
+    color: #1d4ed8 !important;
+}
+.revboostlab-opt-in-actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-top: 4px;
+}
+.revboostlab-opt-in-btn {
+    padding: 8px 20px !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    border-radius: 6px !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-decoration: none !important;
+    box-sizing: border-box !important;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    outline: none !important;
+}
+.revboostlab-opt-in-allow {
+    background-color: #2563eb !important;
+    color: #ffffff !important;
+    border: 1px solid #2563eb !important;
+    box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2), 0 2px 4px -1px rgba(37, 99, 235, 0.1) !important;
+}
+.revboostlab-opt-in-allow:hover {
+    background-color: #1d4ed8 !important;
+    border-color: #1d4ed8 !important;
+    transform: translateY(-0.5px);
+}
+.revboostlab-opt-in-allow:active {
+    transform: translateY(0.5px);
+}
+.revboostlab-opt-in-no-thanks {
+    background-color: #ffffff !important;
+    color: #4b5563 !important;
+    border: 1px solid #d1d5db !important;
+}
+.revboostlab-opt-in-no-thanks:hover {
+    background-color: #f9fafb !important;
+    border-color: #9ca3af !important;
+    color: #111827 !important;
+}
+.revboostlab-opt-in-btn:disabled {
+    opacity: 0.6 !important;
+    cursor: not-allowed !important;
+}
+
 

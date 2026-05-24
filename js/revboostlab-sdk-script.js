@@ -208,4 +208,52 @@ jQuery(document).ready(function($) {
             modal.find('.revboostlab-other-reason-input').slideUp(150);
         }
     });
+
+    // 3. Opt-In Banner Notice Logic
+    $(document).on('click', '.revboostlab-opt-in-allow, .revboostlab-opt-in-no-thanks', function(e) {
+        e.preventDefault();
+        var $btn = $(this);
+        var $notice = $btn.closest('.revboostlab-opt-in-notice');
+        var slug = $notice.data('slug');
+        var nonce = $notice.data('nonce');
+        var ajaxUrl = $notice.data('ajax-url') || (typeof ajaxurl !== 'undefined' ? ajaxurl : '/wp-admin/admin-ajax.php');
+        var isAllow = $btn.hasClass('revboostlab-opt-in-allow');
+        var optInAction = isAllow ? 'allow' : 'no_thanks';
+
+        // Disable buttons to prevent double-click
+        $notice.find('.revboostlab-opt-in-btn').prop('disabled', true);
+        if (isAllow) {
+            $btn.text('Processing...');
+        } else {
+            $btn.text('Dismissing...');
+        }
+
+        $.ajax({
+            url: ajaxUrl,
+            type: 'POST',
+            data: {
+                action: slug + '_opt_in_action',
+                opt_in_action: optInAction,
+                nonce: nonce
+            },
+            success: function(response) {
+                if (response.success) {
+                    $notice.fadeOut(200, function() {
+                        $(this).remove();
+                    });
+                } else {
+                    $notice.find('.revboostlab-opt-in-btn').prop('disabled', false);
+                    $notice.find('.revboostlab-opt-in-allow').text('Allow');
+                    $notice.find('.revboostlab-opt-in-no-thanks').text('No thanks');
+                    alert(response.data.message || 'Error occurred. Please try again.');
+                }
+            },
+            error: function() {
+                $notice.find('.revboostlab-opt-in-btn').prop('disabled', false);
+                $notice.find('.revboostlab-opt-in-allow').text('Allow');
+                $notice.find('.revboostlab-opt-in-no-thanks').text('No thanks');
+                alert('Connection error occurred. Please try again.');
+            }
+        });
+    });
 });

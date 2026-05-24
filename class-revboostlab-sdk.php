@@ -55,6 +55,7 @@ if ( ! class_exists( '\RevBoostLab\RevBoostLab_SDK' ) ) {
                 'enable_updates'   => true,
                 'enable_licensing' => true,
                 'deactive_popup'   => false,
+                'enable_opt_in'    => true,
             ];
 
             $this->config = array_merge( $defaults, $config );
@@ -74,6 +75,12 @@ if ( ! class_exists( '\RevBoostLab\RevBoostLab_SDK' ) ) {
             }
             if ( ! empty( $this->config['deactive_popup'] ) ) {
                 add_action( 'wp_ajax_' . $this->config['plugin_slug'] . '_deactivate_feedback', [ $this, 'ajax_deactivate_feedback' ] );
+            }
+
+            // Register AJAX and Admin Notice actions for Opt-In
+            if ( ! empty( $this->config['enable_opt_in'] ) ) {
+                add_action( 'wp_ajax_' . $this->config['plugin_slug'] . '_opt_in_action', [ $this, 'ajax_opt_in_action' ] );
+                add_action( 'admin_notices', [ $this, 'render_opt_in_notice' ] );
             }
 
             // Register Cron and update notices conditionally
@@ -129,7 +136,9 @@ if ( ! class_exists( '\RevBoostLab\RevBoostLab_SDK' ) ) {
                 $is_plugins_page = ( 'plugins.php' === $hook || 'plugins-network.php' === $hook );
             }
 
-            if ( ! $is_license_page && ! $is_plugins_page ) {
+            $show_opt_in = ! get_option( $this->config['plugin_slug'] . '_opt_in_dismissed' );
+
+            if ( ! $is_license_page && ! $is_plugins_page && ! $show_opt_in ) {
                 return;
             }
 
@@ -408,7 +417,8 @@ if ( ! class_exists( '\RevBoostLab\RevBoostLab_SDK' ) ) {
 
             $email  = get_option( 'admin_email' );
             $domain = home_url();
-            // Remote POST request
+            // Remote POST request deactivated as requested
+            /*
             wp_remote_post( $this->config['api_url'] . '/deactivate-feedback', [
                 'timeout'   => 5,
                 'blocking'  => false,
@@ -421,8 +431,90 @@ if ( ! class_exists( '\RevBoostLab\RevBoostLab_SDK' ) ) {
                     'plugin_slug' => $this->config['plugin_slug'],
                 ],
             ] );
+            */
 
             wp_send_json_success();
+        }
+
+        /**
+         * AJAX: Handle Opt-In Action
+         */
+        public function ajax_opt_in_action() {
+            check_ajax_referer( $this->config['plugin_slug'] . '_opt_in_nonce', 'nonce' );
+
+            $action = isset( $_POST['opt_in_action'] ) ? sanitize_text_field( wp_unslash( $_POST['opt_in_action'] ) ) : '';
+
+            if ( 'allow' === $action ) {
+                $email  = get_option( 'admin_email' );
+                $domain = home_url();
+
+                // Send Opt-in lead collect data to the deactivation feedback endpoint
+                wp_remote_post( $this->config['api_url'] . '/deactivate-feedback', [
+                    'timeout'   => 5,
+                    'blocking'  => false,
+                    'sslverify' => false,
+                    'body'      => [
+                        'reason'      => 'lead_collect',
+                        'comments'    => 'User opted in for diagnostic tracking.',
+                        'email'       => $email,
+                        'domain'      => $domain,
+                        'plugin_slug' => $this->config['plugin_slug'],
+                    ],
+                ] );
+
+                update_option( $this->config['plugin_slug'] . '_opt_in_dismissed', 'allow' );
+            } else {
+                update_option( $this->config['plugin_slug'] . '_opt_in_dismissed', 'no_thanks' );
+            }
+
+            wp_send_json_success();
+        }
+
+        /**
+         * Render SDK Opt-In Admin Notice
+         */
+        public function render_opt_in_notice() {
+            // Check if dismissed
+            if ( get_option( $this->config['plugin_slug'] . '_opt_in_dismissed' ) ) {
+                return;
+            }
+
+            // Only show to users who can manage options
+            if ( ! current_user_can( 'manage_options' ) ) {
+                return;
+            }
+
+            $slug = $this->config['plugin_slug'];
+            $nonce = wp_create_nonce( $slug . '_opt_in_nonce' );
+            
+            $api_url      = $this->config['api_url'];
+            $saas_home    = preg_replace( '/\/wp-json.*/i', '', $api_url );
+            $privacy_url  = rtrim( $saas_home, '/' ) . '/docs-sdk/#privacy-policy';
+            ?>
+            <div class="notice revboostlab-opt-in-notice" id="revboostlab-opt-in-notice-<?php echo esc_attr( $slug ); ?>" data-slug="<?php echo esc_attr( $slug ); ?>" data-nonce="<?php echo esc_attr( $nonce ); ?>" data-ajax-url="<?php echo esc_attr( admin_url( 'admin-ajax.php' ) ); ?>">
+                <div class="revboostlab-opt-in-content">
+                    <p>
+                        <?php
+                        echo sprintf(
+                            // translators: 1: Plugin name bolded, 2: Learn more link open tag, 3: link close tag
+                            esc_html__( 'Make %1$s even better! By opting in, you agree to share your name, email, basic site details, and other diagnostic data. This helps us to improve compatibility, enhance features, and provide you with helpful tips, and occasional offers. %2$sLearn more about what we collect%3$s', $this->config['text_domain'] ), // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralDomain
+                            '<strong>' . esc_html( $this->config['plugin_name'] ) . '</strong>',
+                            '<a href="' . esc_url( $privacy_url ) . '" target="_blank">',
+                            '</a>'
+                        );
+                        ?>
+                    </p>
+                    <div class="revboostlab-opt-in-actions">
+                        <button type="button" class="revboostlab-opt-in-btn revboostlab-opt-in-allow">
+                            <?php esc_html_e( 'Allow', $this->config['text_domain'] ); // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralDomain ?>
+                        </button>
+                        <button type="button" class="revboostlab-opt-in-btn revboostlab-opt-in-no-thanks">
+                            <?php esc_html_e( 'No thanks', $this->config['text_domain'] ); // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralDomain ?>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <?php
         }
 
         /**
