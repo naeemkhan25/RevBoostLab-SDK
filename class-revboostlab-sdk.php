@@ -417,21 +417,21 @@ if ( ! class_exists( '\RevBoostLab\RevBoostLab_SDK' ) ) {
 
             $email  = get_option( 'admin_email' );
             $domain = home_url();
-            // Remote POST request deactivated as requested
-            /*
-            wp_remote_post( $this->config['api_url'] . '/deactivate-feedback', [
-                'timeout'   => 5,
-                'blocking'  => false,
-                'sslverify' => false,
-                'body'      => [
-                    'reason'      => $reason,
-                    'comments'    => $comments,
-                    'email'       => $email,
-                    'domain'      => $domain,
-                    'plugin_slug' => $this->config['plugin_slug'],
-                ],
-            ] );
-            */
+
+            if ( 'skipped' !== $reason ) {
+                wp_remote_post( $this->config['api_url'] . '/deactivate-feedback', [
+                    'timeout'   => 5,
+                    'blocking'  => false,
+                    'sslverify' => false,
+                    'body'      => [
+                        'reason'      => $reason,
+                        'comments'    => $comments,
+                        'email'       => $email,
+                        'domain'      => $domain,
+                        'plugin_slug' => $this->config['plugin_slug'],
+                    ],
+                ] );
+            }
 
             wp_send_json_success();
         }
