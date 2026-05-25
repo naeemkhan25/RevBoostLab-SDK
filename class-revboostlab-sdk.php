@@ -43,14 +43,14 @@ if ( ! class_exists( '\RevBoostLab\RevBoostLab_SDK' ) ) {
             $text_domain = isset( $config['text_domain'] ) ? $config['text_domain'] : 'revboostlab';
             $defaults = [
                 'plugin_file'      => '',
-                'plugin_slug'      => $text_domain, // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralDomain
+                'plugin_slug'      => $text_domain,
                 'plugin_name'      => 'Quotation Manager for WooCommerce',
                 'plugin_version'   => '1.0.0',
                 'parent_menu'      => 'bluepi-quote',
                 'option_status'    => 'revboostlab_license_status',
                 'option_key'       => 'revboostlab_license_key',
                 'api_url'          => 'https://revboostlab.com/wp-json/sacfw/v1',
-                'text_domain'      => $text_domain, // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralDomain
+                'text_domain'      => $text_domain,
                 'brand_color'      => '#0066cc',
                 'enable_updates'   => true,
                 'enable_licensing' => true,
@@ -223,14 +223,14 @@ if ( ! class_exists( '\RevBoostLab\RevBoostLab_SDK' ) ) {
                 <div class="revboostlab-license-card">
                     <div class="revboostlab-license-header">
                         <span class="dashicons dashicons-shield revboostlab-license-icon"></span>
-                        <h2 class="revboostlab-license-title"><?php echo esc_html($this->config['plugin_name']) . ' ' . esc_html__('License', $this->config['text_domain']);  // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralDomain ?></h2> 
+                        <h2 class="revboostlab-license-title"><?php echo esc_html($this->config['plugin_name']) . ' ' . esc_html__('License', 'revboostlab'); ?></h2> 
                         <span class="revboostlab-license-status-badge <?php echo $is_active ? 'status-active' : 'status-inactive'; ?>">
-                            <?php echo $is_active ? esc_html__('Active', $this->config['text_domain']) : esc_html__('Not Active', $this->config['text_domain']);  // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralDomain ?> 
+                            <?php echo $is_active ? esc_html__('Active', 'revboostlab') : esc_html__('Not Active', 'revboostlab'); ?> 
                         </span>
                     </div>
 
                     <div class="revboostlab-license-body">
-                        <p><?php esc_html_e('Enter your premium license key below to activate all pro features, unlock restrictions, and get priority updates directly inside your WordPress dashboard.', $this->config['text_domain']);  // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralDomain ?></p> 
+                        <p><?php esc_html_e('Enter your premium license key below to activate all pro features, unlock restrictions, and get priority updates directly inside your WordPress dashboard.', 'revboostlab'); ?></p> 
                         
                         <form method="post" action="">
                             <?php wp_nonce_field( $this->config['plugin_slug'] . '_license_nonce', 'license_nonce' ); ?>
@@ -243,16 +243,16 @@ if ( ! class_exists( '\RevBoostLab\RevBoostLab_SDK' ) ) {
                                 <?php if (!$is_active): ?>
                                     <button type="button" id="revboostlab-activate-license-btn" class="revboostlab-btn revboostlab-btn-primary">
                                         <span class="dashicons dashicons-yes-alt" style="margin-right: 8px;"></span>
-                                        <?php esc_html_e('Activate Features', $this->config['text_domain']);  // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralDomain ?> 
+                                        <?php esc_html_e('Activate Features', 'revboostlab'); ?> 
                                     </button>
                                 <?php else: ?>
                                     <button type="button" id="revboostlab-deactivate-license-btn" class="revboostlab-btn revboostlab-btn-secondary">
-                                        <?php esc_html_e('Deactivate License', $this->config['text_domain']);  // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralDomain ?> 
+                                        <?php esc_html_e('Deactivate License', 'revboostlab'); ?> 
                                     </button>
                                     <div style="display: flex; flex-direction: column; gap: 4px;">
                                         <div style="color: #059669; font-size: 14px; display: flex; align-items: center; font-weight: 500;">
                                             <span class="dashicons dashicons-saved" style="margin-right: 5px;"></span>
-                                            <?php esc_html_e('Your site is fully activated.', $this->config['text_domain']);  // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralDomain ?> 
+                                            <?php esc_html_e('Your site is fully activated.', 'revboostlab'); ?> 
                                         </div>
                                         <?php
                                         if ( null !== $active_count && null !== $allowed_count ) {
@@ -264,7 +264,7 @@ if ( ! class_exists( '\RevBoostLab\RevBoostLab_SDK' ) ) {
                                                 <?php 
                                                  echo esc_html( sprintf(
                                                      // translators: 1: number of active activations, 2: number of allowed activations, 3: number of remaining activations
-                                                     __( 'Connected: %1$d / %2$d sites (%3$d remaining)', $this->config['text_domain'] ), // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralDomain
+                                                     __( 'Connected: %1$d / %2$d sites (%3$d remaining)', 'revboostlab' ),
                                                      $active_count,
                                                      $allowed_count,
                                                      $remaining
@@ -289,7 +289,7 @@ if ( ! class_exists( '\RevBoostLab\RevBoostLab_SDK' ) ) {
                             <?php 
                             echo sprintf(
                                 // translators: 1: Learn more link open tag, 2: link close tag
-                                esc_html__( 'We share your data with RevBoostLab to troubleshoot problems & make product improvements. %1$sLearn more%2$s about how RevBoostLab handles your data.', $this->config['text_domain'] ), // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralDomain
+                                esc_html__( 'We share your data with RevBoostLab to troubleshoot problems & make product improvements. %1$sLearn more%2$s about how RevBoostLab handles your data.', 'revboostlab' ),
                                 '<a href="' . esc_url( $privacy_url ) . '" target="_blank" style="color: var(--revboostlab-brand-color, #0066cc); text-decoration: underline; font-weight: 500;">',
                                 '</a>'
                             );
@@ -300,7 +300,7 @@ if ( ! class_exists( '\RevBoostLab\RevBoostLab_SDK' ) ) {
                     <div class="revboostlab-license-footer">
                         <?php 
                         /* translators: 1: link open tag, 2: link close tag, 3: secondary link open tag */
-                        echo sprintf(esc_html__('Need help? %1$sContact Support%2$s or %3$sGet a License%2$s', $this->config['text_domain']), '<a href="https://revboostlab.com/contact-us/" target="_blank">', '</a>', '<a href="https://revboostlab.com/my-account" target="_blank">');  // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralDomain
+                        echo sprintf(esc_html__('Need help? %1$sContact Support%2$s or %3$sGet a License%2$s', 'revboostlab'), '<a href="https://revboostlab.com/contact-us/" target="_blank">', '</a>', '<a href="https://revboostlab.com/my-account" target="_blank">');
                         ?>
                     </div>
                 </div>
@@ -329,7 +329,7 @@ if ( ! class_exists( '\RevBoostLab\RevBoostLab_SDK' ) ) {
                     <div class="revboostlab-modal-header">
                         <div style="display: flex; align-items: center; gap: 10px;">
                             <span class="dashicons dashicons-warning" style="font-size: 24px; width: 24px; height: 24px;"></span>
-                            <h3><?php echo esc_html($this->config['plugin_name']) . ' ' . esc_html__( 'Feedback', $this->config['text_domain'] );  // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralDomain ?></h3> 
+                            <h3><?php echo esc_html($this->config['plugin_name']) . ' ' . esc_html__( 'Feedback', 'revboostlab' ); ?></h3> 
                         </div>
                         <span class="revboostlab-close-modal">&times;</span>
                     </div>
@@ -337,40 +337,40 @@ if ( ! class_exists( '\RevBoostLab\RevBoostLab_SDK' ) ) {
                     <!-- Body -->
                     <div class="revboostlab-modal-body">
                         <p>
-                            <?php esc_html_e( 'If you have a moment, please let us know why you are deactivating. Your feedback is highly appreciated!', $this->config['text_domain'] );  // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralDomain ?> 
+                            <?php esc_html_e( 'If you have a moment, please let us know why you are deactivating. Your feedback is highly appreciated!', 'revboostlab' ); ?> 
                         </p>
                         
                         <!-- Options list -->
                         <div class="revboostlab-reasons-list">
                             <label>
                                 <input type="radio" class="revboostlab-deactivate-reason-radio" name="revboostlab_deactivate_reason_<?php echo esc_attr($slug); ?>" value="temporary" />
-                                <span><?php esc_html_e( "I'm only deactivating temporarily", $this->config['text_domain'] );  // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralDomain ?></span> 
+                                <span><?php esc_html_e( "I'm only deactivating temporarily", 'revboostlab' ); ?></span> 
                             </label>
                             
                             <label>
                                 <input type="radio" class="revboostlab-deactivate-reason-radio" name="revboostlab_deactivate_reason_<?php echo esc_attr($slug); ?>" value="better_plugin" />
-                                <span><?php esc_html_e( 'I found a better plugin', $this->config['text_domain'] );  // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralDomain ?></span> 
+                                <span><?php esc_html_e( 'I found a better plugin', 'revboostlab' ); ?></span> 
                             </label>
 
                             <label>
                                 <input type="radio" class="revboostlab-deactivate-reason-radio" name="revboostlab_deactivate_reason_<?php echo esc_attr($slug); ?>" value="missing_feature" />
-                                <span><?php esc_html_e( 'I need a specific feature that is missing', $this->config['text_domain'] );  // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralDomain ?></span> 
+                                <span><?php esc_html_e( 'I need a specific feature that is missing', 'revboostlab' ); ?></span> 
                             </label>
 
                             <label>
                                 <input type="radio" class="revboostlab-deactivate-reason-radio" name="revboostlab_deactivate_reason_<?php echo esc_attr($slug); ?>" value="not_working" />
-                                <span><?php esc_html_e( "The plugin didn't work as expected", $this->config['text_domain'] );  // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralDomain ?></span> 
+                                <span><?php esc_html_e( "The plugin didn't work as expected", 'revboostlab' ); ?></span> 
                             </label>
 
                             <label>
                                 <input type="radio" class="revboostlab-deactivate-reason-radio" name="revboostlab_deactivate_reason_<?php echo esc_attr($slug); ?>" value="other" />
-                                <span><?php esc_html_e( 'Other reason', $this->config['text_domain'] );  // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralDomain ?></span> 
+                                <span><?php esc_html_e( 'Other reason', 'revboostlab' ); ?></span> 
                             </label>
                         </div>
 
                         <!-- Feedback Comments Area -->
                         <div class="revboostlab-other-reason-input">
-                            <textarea id="revboostlab-deactivate-comments-<?php echo esc_attr($slug); ?>" class="revboostlab-deactivate-comments" placeholder="<?php esc_html_e( 'Please tell us more...', $this->config['text_domain'] );  // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralDomain ?>" rows="3"></textarea> 
+                            <textarea id="revboostlab-deactivate-comments-<?php echo esc_attr($slug); ?>" class="revboostlab-deactivate-comments" placeholder="<?php esc_html_e( 'Please tell us more...', 'revboostlab' ); ?>" rows="3"></textarea> 
                         </div>
                         
                         <!-- Privacy Disclaimer -->
@@ -383,7 +383,7 @@ if ( ! class_exists( '\RevBoostLab\RevBoostLab_SDK' ) ) {
                             <?php 
                             echo sprintf(
                                 // translators: 1: Learn more link open tag, 2: link close tag
-                                esc_html__( 'We share your data with RevBoostLab to troubleshoot problems & make product improvements. %1$sLearn more%2$s about how RevBoostLab handles your data.', $this->config['text_domain'] ), // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralDomain
+                                esc_html__( 'We share your data with RevBoostLab to troubleshoot problems & make product improvements. %1$sLearn more%2$s about how RevBoostLab handles your data.', 'revboostlab' ),
                                 '<a href="' . esc_url( $privacy_url ) . '" target="_blank" style="color: #2563eb; text-decoration: underline; font-weight: 500;">',
                                 '</a>'
                             );
@@ -394,11 +394,11 @@ if ( ! class_exists( '\RevBoostLab\RevBoostLab_SDK' ) ) {
                     <!-- Footer Buttons -->
                     <div class="revboostlab-modal-footer">
                         <button type="button" id="revboostlab-skip-deactivate-<?php echo esc_attr($slug); ?>" class="revboostlab-btn-skip revboostlab-skip-deactivate">
-                            <?php esc_html_e( 'Skip & Deactivate', $this->config['text_domain'] );  // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralDomain ?> 
+                            <?php esc_html_e( 'Skip & Deactivate', 'revboostlab' ); ?> 
                         </button>
                         
                         <button type="button" id="revboostlab-submit-deactivate-<?php echo esc_attr($slug); ?>" class="revboostlab-btn-submit revboostlab-submit-deactivate">
-                            <?php esc_html_e( 'Submit & Deactivate', $this->config['text_domain'] );  // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralDomain ?> 
+                            <?php esc_html_e( 'Submit & Deactivate', 'revboostlab' ); ?> 
                         </button>
                     </div>
                 </div>
@@ -497,7 +497,7 @@ if ( ! class_exists( '\RevBoostLab\RevBoostLab_SDK' ) ) {
                         <?php
                         echo sprintf(
                             // translators: 1: Plugin name bolded, 2: Learn more link open tag, 3: link close tag
-                            esc_html__( 'Make %1$s even better! By opting in, you agree to share your name, email, basic site details, and other diagnostic data. This helps us to improve compatibility, enhance features, and provide you with helpful tips, and occasional offers. %2$sLearn more about what we collect%3$s', $this->config['text_domain'] ), // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralDomain
+                            esc_html__( 'Make %1$s even better! By opting in, you agree to share your name, email, basic site details, and other diagnostic data. This helps us to improve compatibility, enhance features, and provide you with helpful tips, and occasional offers. %2$sLearn more about what we collect%3$s', 'revboostlab' ),
                             '<strong>' . esc_html( $this->config['plugin_name'] ) . '</strong>',
                             '<a href="' . esc_url( $privacy_url ) . '" target="_blank">',
                             '</a>'
@@ -506,10 +506,10 @@ if ( ! class_exists( '\RevBoostLab\RevBoostLab_SDK' ) ) {
                     </p>
                     <div class="revboostlab-opt-in-actions">
                         <button type="button" class="revboostlab-opt-in-btn revboostlab-opt-in-allow">
-                            <?php esc_html_e( 'Allow', $this->config['text_domain'] ); // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralDomain ?>
+                            <?php esc_html_e( 'Allow', 'revboostlab' ); ?>
                         </button>
                         <button type="button" class="revboostlab-opt-in-btn revboostlab-opt-in-no-thanks">
-                            <?php esc_html_e( 'No thanks', $this->config['text_domain'] ); // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralDomain ?>
+                            <?php esc_html_e( 'No thanks', 'revboostlab' ); ?>
                         </button>
                     </div>
                 </div>
@@ -524,13 +524,13 @@ if ( ! class_exists( '\RevBoostLab\RevBoostLab_SDK' ) ) {
             check_ajax_referer( $this->config['plugin_slug'] . '_license_nonce', 'nonce' );
 
             if ( ! current_user_can( 'manage_options' ) ) {
-                wp_send_json_error( [ 'message' => __( 'Unauthorized privileges.', $this->config['text_domain'] ) ] ); // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralDomain
+                wp_send_json_error( [ 'message' => __( 'Unauthorized privileges.', 'revboostlab' ) ] );
             }
 
             $license_key = isset( $_POST['license_key'] ) ? sanitize_text_field( wp_unslash( $_POST['license_key'] ) ) : '';
 
             if ( empty( $license_key ) ) {
-                wp_send_json_error( [ 'message' => __( 'Please enter your license key.', $this->config['text_domain'] ) ] ); // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralDomain
+                wp_send_json_error( [ 'message' => __( 'Please enter your license key.', 'revboostlab' ) ] );
             }
 
             $email  = get_option( 'admin_email' );
@@ -555,7 +555,7 @@ if ( ! class_exists( '\RevBoostLab\RevBoostLab_SDK' ) ) {
                 update_option( $this->config['option_key'], $license_key );
                 update_option( $this->config['plugin_slug'] . '_active_activations', 1 );
                 update_option( $this->config['plugin_slug'] . '_allowed_activations', 1 );
-                wp_send_json_success( [ 'message' => __( 'License activated successfully (Local Fallback).', $this->config['text_domain'] ) ] ); // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralDomain
+                wp_send_json_success( [ 'message' => __( 'License activated successfully (Local Fallback).', 'revboostlab' ) ] );
                 return;
             }
 
@@ -571,9 +571,9 @@ if ( ! class_exists( '\RevBoostLab\RevBoostLab_SDK' ) ) {
                 if ( isset( $body_json['allowed_activations'] ) ) {
                     update_option( $this->config['plugin_slug'] . '_allowed_activations', intval( $body_json['allowed_activations'] ) );
                 }
-                wp_send_json_success( [ 'message' => __( 'License activated successfully!', $this->config['text_domain'] ) ] ); // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralDomain
+                wp_send_json_success( [ 'message' => __( 'License activated successfully!', 'revboostlab' ) ] );
             } else {
-                $err_msg = isset( $body_json['message'] ) ? $body_json['message'] : __( 'Invalid license key or server validation failure.', $this->config['text_domain'] ); // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralDomain
+                $err_msg = isset( $body_json['message'] ) ? $body_json['message'] : __( 'Invalid license key or server validation failure.', 'revboostlab' );
                 
                 // Debug fallback
                 if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
@@ -581,7 +581,7 @@ if ( ! class_exists( '\RevBoostLab\RevBoostLab_SDK' ) ) {
                     update_option( $this->config['option_key'], $license_key );
                     update_option( $this->config['plugin_slug'] . '_active_activations', 1 );
                     update_option( $this->config['plugin_slug'] . '_allowed_activations', 1 );
-                    wp_send_json_success( [ 'message' => __( 'License activated successfully (Sandbox Mode).', $this->config['text_domain'] ) ] ); // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralDomain
+                    wp_send_json_success( [ 'message' => __( 'License activated successfully (Sandbox Mode).', 'revboostlab' ) ] );
                 } else {
                     wp_send_json_error( [ 'message' => $err_msg ] );
                 }
@@ -595,7 +595,7 @@ if ( ! class_exists( '\RevBoostLab\RevBoostLab_SDK' ) ) {
             check_ajax_referer( $this->config['plugin_slug'] . '_license_nonce', 'nonce' );
 
             if ( ! current_user_can( 'manage_options' ) ) {
-                wp_send_json_error( [ 'message' => __( 'Unauthorized privileges.', $this->config['text_domain'] ) ] ); // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralDomain
+                wp_send_json_error( [ 'message' => __( 'Unauthorized privileges.', 'revboostlab' ) ] );
             }
 
             $license_key = get_option( $this->config['option_key'], '' );
@@ -621,7 +621,7 @@ if ( ! class_exists( '\RevBoostLab\RevBoostLab_SDK' ) ) {
             delete_option( $this->config['plugin_slug'] . '_active_activations' );
             delete_option( $this->config['plugin_slug'] . '_allowed_activations' );
 
-            wp_send_json_success( [ 'message' => __( 'License deactivated successfully.', $this->config['text_domain'] ) ] ); // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralDomain
+            wp_send_json_success( [ 'message' => __( 'License deactivated successfully.', 'revboostlab' ) ] );
         }
 
         /**
@@ -697,14 +697,14 @@ if ( ! class_exists( '\RevBoostLab\RevBoostLab_SDK' ) ) {
                     <strong>
                         <?php 
                         /* translators: 1: version number, 2: plugin name */
-                        echo sprintf( esc_html__( 'A new premium update (%1$s) is available for %2$s!', $this->config['text_domain'] ), esc_html( $new_version ), esc_html( $this->config['plugin_name'] ) );  // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralDomain
+                        echo sprintf( esc_html__( 'A new premium update (%1$s) is available for %2$s!', 'revboostlab' ), esc_html( $new_version ), esc_html( $this->config['plugin_name'] ) );
                         ?>
                     </strong>
                     <br />
                     <?php 
                     echo sprintf(
                         // translators: 1: dashboard link open tag, 2: link close tag
-                        esc_html__( 'Please go to your %1$sMy Account%2$s dashboard on our site to download the new version. Once downloaded, deactivate and delete the old version, then upload the new zip to update.', $this->config['text_domain'] ), // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralDomain
+                        esc_html__( 'Please go to your %1$sMy Account%2$s dashboard on our site to download the new version. Once downloaded, deactivate and delete the old version, then upload the new zip to update.', 'revboostlab' ),
                         '<a href="' . esc_url( $my_account_url ) . '" target="_blank" style="font-weight: bold; text-decoration: underline;">',
                         '</a>'
                     ); 
@@ -756,13 +756,13 @@ if ( ! class_exists( '\RevBoostLab\RevBoostLab_SDK' ) ) {
                             <strong>
                                 <?php 
                                 /* translators: %s: new version number */
-                                echo sprintf( esc_html__( 'A new premium version (%s) is available.', $this->config['text_domain'] ), esc_html( $new_version ) );  // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralDomain
+                                echo sprintf( esc_html__( 'A new premium version (%s) is available.', 'revboostlab' ), esc_html( $new_version ) );
                                 ?>
                             </strong>
                             <?php
                             echo sprintf(
                                 // translators: 1: dashboard link open tag, 2: link close tag
-                                esc_html__( 'Please go to your %1$sMy Account%2$s dashboard to download the new version. Once downloaded, deactivate and delete the old version, then upload the new zip to update.', $this->config['text_domain'] ), // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralDomain
+                                esc_html__( 'Please go to your %1$sMy Account%2$s dashboard to download the new version. Once downloaded, deactivate and delete the old version, then upload the new zip to update.', 'revboostlab' ),
                                 '<a href="' . esc_url( $my_account_url ) . '" target="_blank" style="font-weight: bold; text-decoration: underline;">',
                                 '</a>'
                             );
